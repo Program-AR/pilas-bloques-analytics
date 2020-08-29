@@ -28,3 +28,8 @@ export const disconnectDB = () => mongoose.disconnect()
 export const flushDB = () => {
   mongoose.modelNames().forEach(model => mongoose.deleteModel(model))
 }
+
+// EXPECTATIONS
+export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
+  expect(res.body).toMatchObject(expected)
+}

@@ -1,10 +1,5 @@
-import * as Supertest from 'supertest'
-import { createServer, Request, dropDB, flushDB, disconnectDB } from './utils'
-import user from '../src/models/user'
-
-const matchBody = (expected: any) => (res: Supertest.Response) => {
-  expect(res.body).toMatchObject(expected)
-}
+import { createServer, Request, dropDB, flushDB, disconnectDB, matchBody } from './utils'
+import User from '../src/models/user'
 
 describe('Users', () => {
   let request: Request
@@ -16,7 +11,7 @@ describe('Users', () => {
   
   beforeEach(async () => {
     await dropDB()
-    await user.create({ userId: USER_ID })
+    await User.create({ userId: USER_ID })
     flushDB()
   })
 
