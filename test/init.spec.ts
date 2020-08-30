@@ -1,4 +1,4 @@
-import { createServer, Request } from './utils'
+import { createServer, Request, disconnectDB } from './utils'
 
 
 describe('Server', () => {
@@ -7,7 +7,11 @@ describe('Server', () => {
   beforeAll(async () => {
     request = await createServer()
   })
-
+  
+  afterAll(async () => {
+    await disconnectDB()
+  })
+  
   test('is working', () =>
     request.get('/ping').expect(200, 'pong')
   )
