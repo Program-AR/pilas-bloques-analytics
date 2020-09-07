@@ -7,7 +7,7 @@ type ErrorRequestHandler = express.ErrorRequestHandler
 type ValidationError = mongoose.Error.ValidationError
 type ServerError = HttpCodeError | ValidationError | MongoError
 
-const serverErrorHandler: ErrorRequestHandler = (err: ServerError, req, res, next) => {
+const serverErrorHandler: ErrorRequestHandler = (err: ServerError, req, res) => {
   if ('httpCode' in err) {
     res.status(err.httpCode).send(err.message)
     return
