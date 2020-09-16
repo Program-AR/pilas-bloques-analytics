@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import { SESSION_FIELD } from './utils'
 const Schema = mongoose.Schema
 
 const Challenge = new Schema({
@@ -6,22 +7,7 @@ const Challenge = new Schema({
     type: Schema.Types.Mixed,
     required: true
   },
-  online: {
-    type: Boolean,
-    required: true
-  },
-  browserId: {
-    type: Schema.Types.Mixed,
-    required: true
-  },
-  sessionId: {
-    type: Schema.Types.Mixed,
-    required: true
-  },
-  userId: {
-    type: Schema.Types.Mixed,
-    required: true
-  },
+  session: SESSION_FIELD
 }, {
   timestamps: true // (client side)
 })

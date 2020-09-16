@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose'
+import { SESSION_FIELD } from './utils'
 const Schema = mongoose.Schema
 
 const Solution = new Schema({
@@ -7,7 +8,6 @@ const Solution = new Schema({
     required: true,
     unique: true
   },
-  //TODO: Session fields
   program: {
     type: String,
     required: true
@@ -22,7 +22,8 @@ const Solution = new Schema({
     isTheProblemSolved: Boolean,
     stoppedByUser: Boolean,
     error: Schema.Types.Mixed,
-  }
+  },
+  session: SESSION_FIELD
 }, {
   timestamps: true
 })
