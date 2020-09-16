@@ -18,4 +18,8 @@ export const SESSION_FIELD = {
     type: Schema.Types.Mixed,
     required: true
   },
+  timestamp: {
+    type: Date,
+    required: true
+  },
 }

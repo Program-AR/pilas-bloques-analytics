@@ -24,8 +24,6 @@ const Solution = new Schema({
     error: Schema.Types.Mixed,
   },
   session: SESSION_FIELD
-}, {
-  timestamps: true
 })
 
 export default mongoose.model('Solution', Solution)

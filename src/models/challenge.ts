@@ -8,8 +8,6 @@ const Challenge = new Schema({
     required: true
   },
   session: SESSION_FIELD
-}, {
-  timestamps: true // (client side)
 })
 
 export default mongoose.model('Challenge', Challenge)
