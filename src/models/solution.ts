@@ -8,6 +8,10 @@ const Solution = new Schema({
     required: true,
     unique: true
   },
+  challengeId: {
+    type: Schema.Types.Mixed,
+    required: true
+  },
   program: {
     type: String,
     required: true

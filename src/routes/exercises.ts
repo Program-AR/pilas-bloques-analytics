@@ -26,8 +26,9 @@ router.post('/solutions', syncHandler(async (req: ChallengeRequest, res) => {
 }))
 
 router.put('/solutions/:solutionId', syncHandler(async (req: ChallengeRequest, res) => {
-  const solution = await req.solution.update(req.body)
-  res.json(solution)
+  req.solution.set(req.body)
+  await req.solution.save()
+  res.json(req.solution)
 }))
 
 export default router

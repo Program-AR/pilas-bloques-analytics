@@ -33,3 +33,12 @@ export const flushDB = () => {
 export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
   expect(res.body).toMatchObject(expected)
 }
+
+// MOCKS
+export const session = {
+  online: true,
+  browserId: 123,
+  sessionId: "HASH",
+  userId: 123,
+  timestamp: new Date().toISOString()
+}
