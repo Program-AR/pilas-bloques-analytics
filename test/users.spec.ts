@@ -11,8 +11,7 @@ describe('Users', () => {
   
   beforeEach(async () => {
     await dropDB()
-    await User.create({ userId: USER_ID })
-    flushDB()
+    return await User.create({ userId: USER_ID })
   })
 
   afterAll(async () => {

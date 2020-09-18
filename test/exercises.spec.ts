@@ -7,15 +7,8 @@ describe('Challenges', () => {
   beforeAll(async () => {
     request = await createServer()
   })
-
-  beforeEach(async () => {
-    await dropDB()
-  })
-
-  afterAll(async () => {
-    await disconnectDB()
-  })
-
+  beforeEach(() => dropDB())
+  afterAll(() => disconnectDB())
 
   test('Create challenge', () =>
     request.post('/challenges')
@@ -32,7 +25,7 @@ describe('Challenges', () => {
   )
 
   test('Update solution with execution results', async () => {
-    await Solution.create(solutionJson)
+    const { solutionId } = await Solution.create(solutionJson)
     return request.put(`/solutions/${solutionId}`)
       .send(executionResultJson)
       .expect(200)

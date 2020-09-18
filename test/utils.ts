@@ -13,14 +13,13 @@ export const createServer = async () => {
   return Request(app)
 }
 
-export const connectDB = async () => {
-  await mongoose.connect('mongodb://localhost/pilas-bloques-analytics-test', {
+export const connectDB = () =>
+  mongoose.connect('mongodb://localhost/pilas-bloques-analytics-test', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true
   })
-}
 
 export const dropDB = () => mongoose.connection.dropDatabase()
 export const disconnectDB = () => mongoose.disconnect()
