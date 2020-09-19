@@ -9,7 +9,7 @@ type ChallengeRequest = ResourceRequest<'solution'>
 const router = express.Router()
 
 router.param('solutionId', async (req: ChallengeRequest, res, next, id) => {
-  const solution = await Solution.findOne({ solutionId: id }).exec()
+  const solution = await Solution.findOne({ solutionId: id })
   if (!solution) return next(new EntityNotFound('Solution', id))
   req.solution = solution
   next()
@@ -22,6 +22,8 @@ router.post('/challenges', syncHandler(async (req: ChallengeRequest, res) => {
 
 router.post('/solutions', syncHandler(async (req: ChallengeRequest, res) => {
   const solution = await Solution.create(req.body)
+  const { challengeId, session: { sessionId } } = solution
+  await Challenge.findOneAndUpdate({ challengeId, 'session.sessionId': sessionId }, { firstSolution: solution }).sort({ 'session.timestamp': -1 })
   res.json(solution)
 }))
 

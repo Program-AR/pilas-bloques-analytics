@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose'
 import { SESSION_FIELD } from './utils'
 const Schema = mongoose.Schema
 
-const Solution = new Schema({
+const SolutionSchema = new Schema({
   solutionId: {
     type: Schema.Types.Mixed,
     required: true,
@@ -30,4 +30,10 @@ const Solution = new Schema({
   session: SESSION_FIELD
 })
 
-export default mongoose.model('Solution', Solution)
+interface Solution extends mongoose.Document {
+  solutionId: any,
+  challengeId: any,
+  session: any
+}
+
+export default mongoose.model<Solution>('Solution', SolutionSchema)
