@@ -31,6 +31,7 @@ const SolutionSchema = new Schema({
 })
 
 interface Solution extends mongoose.Document {
+  program: string,
   solutionId: any,
   challengeId: any,
   session: any

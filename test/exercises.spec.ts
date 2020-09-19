@@ -38,6 +38,17 @@ describe('Challenges', () => {
     expect(secondChallenge.firstSolution).toBeTruthy()
   })
 
+  test('Create solution should update last challenge only once', async () => {
+    const solution = await Solution.create(solutionJson)
+    const newChallengeJson = { ...challengeJson, firstSolution: solution }
+    await Challenge.create(newChallengeJson)
+    await request.post('/solutions')
+      .send(solutionJson)
+      .expect(200)
+    const challenge = await Challenge.findOne({ challengeId })
+    expect(challenge.firstSolution).toEqual(solution._id)
+  })
+
   test('Update solution with execution results', async () => {
     const { solutionId } = await Solution.create(solutionJson)
     return request.put(`/solutions/${solutionId}`)
