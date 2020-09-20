@@ -23,11 +23,7 @@ router.post('/challenges', syncHandler(async (req: ChallengeRequest, res) => {
 router.post('/solutions', syncHandler(async (req: ChallengeRequest, res) => {
   const solution = await Solution.create(req.body)
   const { challengeId, session: { sessionId } } = solution
-  const challenge = await Challenge.findOne({ challengeId, 'session.sessionId': sessionId }).sort({ 'session.timestamp': -1 })
-  if (challenge && !challenge.firstSolution) {
-    challenge.firstSolution = solution
-    challenge.save()
-  }
+  await Challenge.setFirstSolution(challengeId, sessionId, solution)
   res.json(solution)
 }))
 

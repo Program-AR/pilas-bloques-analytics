@@ -14,10 +14,23 @@ const CHALLENGE_FIELDS = {
   session: SESSION_FIELDS
 }
 
+const repository = {
+  setFirstSolution: async function (this: mongoose.Model<ChallengeDoc>, challengeId: any, sessionId: any, solution: SolutionDoc) {
+    const challenge = await this.findOne({ challengeId, 'session.sessionId': sessionId }).sort({ 'session.timestamp': -1 })
+    if (challenge && !challenge.firstSolution) {
+      challenge.firstSolution = solution
+      return challenge.save()
+    }
+  }
+}
+
 const ChallengeSchema = new Schema(CHALLENGE_FIELDS)
+ChallengeSchema.statics = repository
 
 interface ChallengeDoc extends DocumentOf<typeof CHALLENGE_FIELDS> {
   firstSolution?: SolutionDoc
 }
 
-export default mongoose.model<ChallengeDoc>('Challenge', ChallengeSchema)
+type ChallengeModel = mongoose.Model<ChallengeDoc> & typeof repository
+
+export default mongoose.model<ChallengeDoc, ChallengeModel>('Challenge', ChallengeSchema)
