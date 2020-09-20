@@ -1,25 +1,19 @@
-import { createServer, Request, dropDB, disconnectDB, matchBody, session } from './utils'
+import describeApi from './describeApi'
+import { matchBody, session } from './utils'
 import Solution from '../src/models/solution'
 import Challenge from '../src/models/challenge'
 
-describe('Challenges', () => {
-  let request: Request
-
-  beforeAll(async () => {
-    request = await createServer()
-  })
-  beforeEach(() => dropDB())
-  afterAll(() => disconnectDB())
-
+describeApi('Challenges', (request) => {
+  
   test('Create challenge', () =>
-    request.post('/challenges')
+    request().post('/challenges')
       .send(challengeJson)
       .expect(200)
       .then(matchBody(challengeJson))
   )
 
   test('Create solution', () =>
-    request.post('/solutions')
+    request().post('/solutions')
       .send(solutionJson)
       .expect(200)
       .then(matchBody(solutionJson))
@@ -30,7 +24,7 @@ describe('Challenges', () => {
     const newChallengeJson = { ...challengeJson }
     newChallengeJson.session.timestamp = new Date().toISOString()
     await Challenge.create(newChallengeJson)
-    await request.post('/solutions')
+    await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
     const [firstChallenge, secondChallenge] = await Challenge.find({ challengeId })
@@ -42,7 +36,7 @@ describe('Challenges', () => {
     const solution = await Solution.create(solutionJson)
     const newChallengeJson = { ...challengeJson, firstSolution: solution }
     await Challenge.create(newChallengeJson)
-    await request.post('/solutions')
+    await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
     const challenge = await Challenge.findOne({ challengeId })
@@ -51,12 +45,14 @@ describe('Challenges', () => {
 
   test('Update solution with execution results', async () => {
     const { solutionId } = await Solution.create(solutionJson)
-    return request.put(`/solutions/${solutionId}`)
+    return request().put(`/solutions/${solutionId}`)
       .send(executionResultJson)
       .expect(200)
       .then(matchBody({ ...solutionJson, ...executionResultJson }))
   })
+
 })
+
 
 const solutionId = "007"
 
