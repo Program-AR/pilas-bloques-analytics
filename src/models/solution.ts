@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose'
-import { SESSION_FIELD } from './utils'
+import { SESSION_FIELDS, DocumentOf, Nullable } from './utils'
 const Schema = mongoose.Schema
 
-const SolutionSchema = new Schema({
+const SOLUTION_FIELDS = {
   solutionId: {
     type: Schema.Types.Mixed,
     required: true,
@@ -23,18 +23,21 @@ const SolutionSchema = new Schema({
     }
   },
   executionResult: {
-    isTheProblemSolved: Boolean,
-    stoppedByUser: Boolean,
-    error: Schema.Types.Mixed,
+    isTheProblemSolved: {
+      type: Boolean
+    },
+    stoppedByUser: {
+      type: Boolean
+    },
+    error: {
+      type: Schema.Types.Mixed
+    },
   },
-  session: SESSION_FIELD
-})
-
-interface Solution extends mongoose.Document {
-  program: string,
-  solutionId: any,
-  challengeId: any,
-  session: any
+  session: SESSION_FIELDS
 }
 
-export default mongoose.model<Solution>('Solution', SolutionSchema)
+const SolutionSchema = new Schema(SOLUTION_FIELDS)
+
+export type SolutionDoc = Nullable<DocumentOf<typeof SOLUTION_FIELDS>, 'executionResult'>
+
+export default mongoose.model<SolutionDoc>('Solution', SolutionSchema)

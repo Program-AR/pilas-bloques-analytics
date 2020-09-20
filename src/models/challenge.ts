@@ -1,21 +1,23 @@
 import * as mongoose from 'mongoose'
-import { SESSION_FIELD } from './utils'
+import { SESSION_FIELDS, DocumentOf } from './utils'
+import { SolutionDoc } from './solution'
 const Schema = mongoose.Schema
 
-const ChallengeSchema = new Schema({
+const CHALLENGE_FIELDS = {
   challengeId: {
     type: Schema.Types.Mixed,
     required: true
   },
-  firstSolution: Schema.Types.ObjectId,
-  session: SESSION_FIELD
-})
+  firstSolution: {
+    type: Schema.Types.ObjectId
+  },
+  session: SESSION_FIELDS
+}
 
+const ChallengeSchema = new Schema(CHALLENGE_FIELDS)
 
-interface ChallengeDoc extends mongoose.Document {
-  challengeId: any,
-  firstSolution?: any,
-  session: any //TODO
+interface ChallengeDoc extends DocumentOf<typeof CHALLENGE_FIELDS> {
+  firstSolution?: SolutionDoc
 }
 
 export default mongoose.model<ChallengeDoc>('Challenge', ChallengeSchema)
