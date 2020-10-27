@@ -1,10 +1,9 @@
 import User from '../models/user'
 import * as express from 'express'
-import * as mongoose from 'mongoose'
-import { syncHandler } from './utils'
+import { syncHandler, ResourceRequest } from './utils'
 import { EntityNotFound } from './errorHandlers'
 
-type UserRequest = express.Request & { user: mongoose.Document }
+type UserRequest = ResourceRequest<'user'>
 
 const router = express.Router()
 
