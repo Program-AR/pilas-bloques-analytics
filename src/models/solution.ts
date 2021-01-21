@@ -16,6 +16,10 @@ const SOLUTION_FIELDS = {
     type: String,
     required: true
   },
+  ast: {
+    type: Schema.Types.Mixed,
+    required: true
+  },
   staticAnalysis: {
     couldExecute: {
       type: Boolean,
