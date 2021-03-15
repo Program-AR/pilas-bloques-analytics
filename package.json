@@ -9,7 +9,7 @@
     "start": "node dist/src/index.js",
     "test": "jest --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
     "release": "release patch",
-    "prepackage": "npm run build && cp -R node_modules dist/",
+    "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
     "package": "tar -czf pilasbloques-analytics.tar.gz dist/*"
   },
   "author": "Fundación Sadosky",
