@@ -16,7 +16,7 @@ const CHALLENGE_FIELDS = {
 
 const repository = {
   setFirstSolution: async function (this: mongoose.Model<ChallengeDoc>, challengeId: any, sessionId: any, solution: SolutionDoc) {
-    const challenge = await this.findOne({ challengeId, 'session.sessionId': sessionId }).sort({ 'session.timestamp': -1 })
+    const challenge = await this.findOne({ challengeId, 'session.id': sessionId }).sort({ 'session.timestamp': -1 })
     if (challenge && !challenge.firstSolution) {
       challenge.firstSolution = solution
       return challenge.save()

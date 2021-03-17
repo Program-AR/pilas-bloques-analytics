@@ -10,7 +10,7 @@ export const SESSION_FIELDS = {
     type: Schema.Types.Mixed,
     required: true
   },
-  sessionId: {
+  id: {
     type: Schema.Types.Mixed,
     required: true
   },

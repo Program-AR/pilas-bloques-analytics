@@ -37,7 +37,7 @@ export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
 export const session = {
   online: true,
   browserId: 123,
-  sessionId: "HASH",
+  id: "HASH",
   userId: 123,
   timestamp: new Date().toISOString()
 }
