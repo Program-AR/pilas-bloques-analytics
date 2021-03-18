@@ -21,7 +21,8 @@ export const SESSION_FIELDS = {
   timestamp: {
     type: Date,
     required: true
-  }
+  },
+  answers: [Schema.Types.Mixed]
 }
 
 //// TYPES 
