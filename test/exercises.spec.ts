@@ -4,7 +4,7 @@ import Solution from '../src/models/solution'
 import Challenge from '../src/models/challenge'
 
 describeApi('Challenges', (request) => {
-  
+
   test('Create challenge', () =>
     request().post('/challenges')
       .send(challengeJson)
@@ -70,7 +70,9 @@ const solutionJson = {
   staticAnalysis: {
     couldExecute: true
   },
-  session
+  session,
+  timestamp: new Date().toISOString(),
+  turboModeOn: false,
 }
 
 const executionResultJson = {

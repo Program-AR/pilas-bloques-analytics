@@ -33,7 +33,15 @@ const SOLUTION_FIELDS = {
       type: Schema.Types.Mixed
     },
   },
-  session: SESSION_FIELDS
+  session: SESSION_FIELDS,
+  timestamp: {
+    type: Date,
+    required: true
+  },
+  turboModeOn: {
+    type: Boolean,
+    required: true
+  },
 }
 
 const SolutionSchema = new Schema(SOLUTION_FIELDS)
