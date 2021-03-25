@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-export const SESSION_FIELDS = {
+export const CONTEXT_FIELDS = {
   online: {
     type: Boolean,
     required: true
@@ -18,10 +18,6 @@ export const SESSION_FIELDS = {
     type: Schema.Types.Mixed,
     required: true
   },
-  timestamp: {
-    type: Date,
-    required: true
-  },
   answers: [Schema.Types.Mixed]
 }
 
@@ -30,7 +26,7 @@ export const SESSION_FIELDS = {
 export type DocumentOf<T> = FromFields<T> & mongoose.Document
 
 type FromFields<T extends Record<any, any>> = {
-  [Key in Fields<T>] :
+  [Key in Fields<T>]:
   any extends T[Key]['type']
   ? FromFields<T[Key]>
   : FieldType<T[Key]>

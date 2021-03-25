@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { SESSION_FIELDS, DocumentOf } from './utils'
+import { CONTEXT_FIELDS, DocumentOf } from './utils'
 import { SolutionDoc } from './solution'
 const Schema = mongoose.Schema
 
@@ -11,12 +11,16 @@ const CHALLENGE_FIELDS = {
   firstSolution: {
     type: Schema.Types.ObjectId
   },
-  session: SESSION_FIELDS
+  context: CONTEXT_FIELDS,
+  timestamp: {
+    type: Date,
+    required: true
+  },
 }
 
 const repository = {
-  setFirstSolution: async function (this: mongoose.Model<ChallengeDoc>, challengeId: any, sessionId: any, solution: SolutionDoc) {
-    const challenge = await this.findOne({ challengeId, 'session.id': sessionId }).sort({ 'timestamp': -1 })
+  setFirstSolution: async function (this: mongoose.Model<ChallengeDoc>, challengeId: any, contextId: any, solution: SolutionDoc) {
+    const challenge = await this.findOne({ challengeId, 'context.id': contextId }).sort({ 'timestamp': -1 })
     if (challenge && !challenge.firstSolution) {
       challenge.firstSolution = solution
       return challenge.save()
