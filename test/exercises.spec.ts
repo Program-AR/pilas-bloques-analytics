@@ -67,6 +67,7 @@ const solutionJson = {
   challengeId,
   solutionId,
   program: "XML",
+  ast: [],
   staticAnalysis: {
     couldExecute: true
   },
