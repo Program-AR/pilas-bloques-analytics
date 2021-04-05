@@ -22,7 +22,7 @@ router.post('/challenges', syncHandler(async (req: ChallengeRequest, res) => {
 
 router.post('/solutions', syncHandler(async (req: ChallengeRequest, res) => {
   const solution = await Solution.create(req.body)
-  const { challengeId, session: { id } } = solution
+  const { challengeId, context: { id } } = solution
   await Challenge.setFirstSolution(challengeId, id, solution)
   res.json(solution)
 }))

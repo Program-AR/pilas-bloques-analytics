@@ -34,10 +34,10 @@ export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
 }
 
 // MOCKS
-export const session = {
+export const context = {
   online: true,
   browserId: 123,
   id: "HASH",
   userId: 123,
-  timestamp: new Date().toISOString()
+  answers: [],
 }

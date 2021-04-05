@@ -1,10 +1,10 @@
 import describeApi from './describeApi'
-import { matchBody, session } from './utils'
+import { matchBody, context } from './utils'
 import Solution from '../src/models/solution'
 import Challenge from '../src/models/challenge'
 
 describeApi('Challenges', (request) => {
-  
+
   test('Create challenge', () =>
     request().post('/challenges')
       .send(challengeJson)
@@ -22,7 +22,7 @@ describeApi('Challenges', (request) => {
   test('Create solution should update last challenge', async () => {
     await Challenge.create(challengeJson)
     const newChallengeJson = { ...challengeJson }
-    newChallengeJson.session.timestamp = new Date().toISOString()
+    newChallengeJson.timestamp = new Date().toISOString()
     await Challenge.create(newChallengeJson)
     await request().post('/solutions')
       .send(solutionJson)
@@ -60,7 +60,8 @@ const challengeId = "1"
 
 const challengeJson = {
   challengeId,
-  session
+  context,
+  timestamp: new Date().toISOString(),
 }
 
 const solutionJson = {
@@ -71,7 +72,9 @@ const solutionJson = {
   staticAnalysis: {
     couldExecute: true
   },
-  session
+  context,
+  timestamp: new Date().toISOString(),
+  turboModeOn: false,
 }
 
 const executionResultJson = {

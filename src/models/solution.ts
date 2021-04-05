@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import { SESSION_FIELDS, DocumentOf, Nullable } from './utils'
+import { CONTEXT_FIELDS, DocumentOf, Nullable } from './utils'
 const Schema = mongoose.Schema
 
 const SOLUTION_FIELDS = {
@@ -37,7 +37,15 @@ const SOLUTION_FIELDS = {
       type: Schema.Types.Mixed
     },
   },
-  session: SESSION_FIELDS
+  context: CONTEXT_FIELDS,
+  timestamp: {
+    type: Date,
+    required: true
+  },
+  turboModeOn: {
+    type: Boolean,
+    required: true
+  },
 }
 
 const SolutionSchema = new Schema(SOLUTION_FIELDS)
