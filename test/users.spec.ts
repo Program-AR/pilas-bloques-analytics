@@ -1,14 +1,15 @@
 import describeApi from './describeApi'
 import { matchBody } from './utils'
-import User from '../src/models/user'
+import { UserModel } from 'pilas-bloques-models'
+import { User } from 'pilas-bloques-models'
 
 describeApi('Users', (request) => {
 
-  beforeEach(() => User.create({ userId: USER_ID }))
+  beforeEach(() => UserModel.create(user as User))
 
   test('Create', () =>
     request().post('/users')
-      .send({ userId: "RANDOM" })
+      .send(user)
       .expect(200)
       .then(matchBody({ userId: "RANDOM" }))
   )
@@ -21,14 +22,14 @@ describeApi('Users', (request) => {
 
   test.skip('Unique error', () =>
     request().post('/users')
-      .send({ userId: USER_ID })
+      .send({ userId: username })
       .expect(400, 'Duplicate key error.')
   )
 
   test('Get', () =>
-    request().get(`/users/${USER_ID}`)
+    request().get(`/users/${username}`)
       .expect(200)
-      .then(matchBody({ userId: USER_ID }))
+      .then(matchBody({ userId: username }))
   )
 
   test('Not found error', () =>
@@ -37,7 +38,7 @@ describeApi('Users', (request) => {
   )
 
   test('Update', () =>
-    request().put(`/users/${USER_ID}`)
+    request().put(`/users/${username}`)
       .send({ userId: "OTHER" })
       .expect(200)
       .then(matchBody({ userId: "OTHER" }))
@@ -45,4 +46,12 @@ describeApi('Users', (request) => {
 
 })
 
-const USER_ID = "TEST_ID"
+const username = "TEST_ID"
+
+const user: Partial<User> = {
+  username,
+  salt: 'asd',
+  hashedPassword: 'Dvl9i34mkvgoi',
+  parentName: 'Pepita',
+  parentDNI: '123546345'
+}

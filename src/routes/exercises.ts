@@ -1,5 +1,5 @@
-import Challenge from '../models/challenge'
-import Solution from '../models/solution'
+import { ChallengeModel } from 'pilas-bloques-models'
+import { SolutionModel } from 'pilas-bloques-models'
 import * as express from 'express'
 import { syncHandler, ResourceRequest } from './utils'
 import { EntityNotFound } from './errorHandlers'
@@ -9,21 +9,21 @@ type ChallengeRequest = ResourceRequest<'solution'>
 const router = express.Router()
 
 router.param('solutionId', async (req: ChallengeRequest, res, next, id) => {
-  const solution = await Solution.findOne({ solutionId: id })
+  const solution = await SolutionModel.findOne({ solutionId: id })
   if (!solution) return next(new EntityNotFound('Solution', id))
   req.solution = solution
   next()
 })
 
 router.post('/challenges', syncHandler(async (req: ChallengeRequest, res) => {
-  const challenge = await Challenge.create(req.body)
+  const challenge = await ChallengeModel.create(req.body)
   res.json(challenge)
 }))
 
 router.post('/solutions', syncHandler(async (req: ChallengeRequest, res) => {
-  const solution = await Solution.create(req.body)
+  const solution = await SolutionModel.create(req.body)
   const { challengeId, context: { id } } = solution
-  await Challenge.setFirstSolution(challengeId, id, solution)
+  await ChallengeModel.setFirstSolution(challengeId, id, solution)
   res.json(solution)
 }))
 

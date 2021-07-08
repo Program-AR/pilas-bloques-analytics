@@ -40,4 +40,5 @@ export const context = {
   id: "HASH",
   userId: 123,
   answers: [],
+  timestamp: new Date().toISOString()
 }
