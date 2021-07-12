@@ -2,6 +2,7 @@ import * as express from 'express'
 import * as Request from 'supertest'
 import * as mongoose from 'mongoose'
 import router from '../src/routes'
+import { Context } from 'pilas-bloques-models'
 
 export type Request = Request.SuperTest<Request.Test>
 
@@ -34,7 +35,7 @@ export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
 }
 
 // MOCKS
-export const context = {
+export const context: Context = {
   online: true,
   browserId: 123,
   id: "HASH",

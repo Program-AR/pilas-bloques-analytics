@@ -1,7 +1,8 @@
 import describeApi from './describeApi'
 import { matchBody, context } from './utils'
-import { SolutionModel } from 'pilas-bloques-models'
+import { CompleteSolutionModel } from 'pilas-bloques-models'
 import { ChallengeModel } from 'pilas-bloques-models'
+import { CompleteSolution } from 'pilas-bloques-models'
 
 describeApi('Challenges', (request) => {
 
@@ -33,7 +34,7 @@ describeApi('Challenges', (request) => {
   })
 
   test('Create solution should update last challenge only once', async () => {
-    const solution = await SolutionModel.create(solutionJson)
+    const solution = await CompleteSolutionModel.create(solutionJson)
     const newChallengeJson = { ...challengeJson, firstSolution: solution }
     await ChallengeModel.create(newChallengeJson)
     await request().post('/solutions')
@@ -44,7 +45,7 @@ describeApi('Challenges', (request) => {
   })
 
   test('Update solution with execution results', async () => {
-    const { solutionId } = await SolutionModel.create(solutionJson)
+    const { solutionId } = await CompleteSolutionModel.create(solutionJson)
     return request().put(`/solutions/${solutionId}`)
       .send(executionResultJson)
       .expect(200)
@@ -67,14 +68,14 @@ const challengeJson = {
 const executionResultJson = {
   isTheProblemSolved: true,
   stoppedByUser: false,
-  error: ''
+  error: '' as any
 }
 
-const solutionJson = {
+const solutionJson: CompleteSolution = {
   challengeId,
   solutionId,
   program: "XML",
-  ast: [],
+  ast: '123asd',
   staticAnalysis: {
     couldExecute: true
   },
@@ -82,4 +83,18 @@ const solutionJson = {
   timestamp: new Date().toISOString(),
   turboModeOn: false,
   executionResult: executionResultJson,
+  user: {
+    _id: '53cb6b9b4f4ddef1ad47f943',
+    username: 'pepita',
+    salt: 'asd',
+    hashedPassword: 'Dvl9i34mkvgoi',
+    parentName: 'Pepita',
+    parentDNI: '123546345',
+    answers: [],
+    profile: {
+      nickName: 'pepitaLaGenia',
+      avatarURL: 'pepita.png'
+    },
+    answeredQuestionIds: [1, 2, 3, 4]
+  }
 }
