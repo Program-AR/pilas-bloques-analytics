@@ -1,8 +1,7 @@
 import describeApi from './describeApi'
-import { matchBody, context } from './utils'
+import { matchBody, challengeJson, solutionJson, executionResultJson } from './utils'
 import { CompleteSolutionModel } from 'pilas-bloques-models'
 import { ChallengeModel } from 'pilas-bloques-models'
-import { CompleteSolution } from 'pilas-bloques-models'
 
 describeApi('Challenges', (request) => {
 
@@ -28,7 +27,7 @@ describeApi('Challenges', (request) => {
     await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
-    const [firstChallenge, secondChallenge] = await ChallengeModel.find({ challengeId })
+    const [firstChallenge, secondChallenge] = await ChallengeModel.find({ challengeId: challengeJson.challengeId })
     expect(firstChallenge.firstSolution).toBeFalsy()
     expect(secondChallenge.firstSolution).toBeTruthy()
   })
@@ -40,61 +39,19 @@ describeApi('Challenges', (request) => {
     await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
-    const challenge = await ChallengeModel.findOne({ challengeId })
+    const challenge = await ChallengeModel.findOne({ challengeId: challengeJson.challengeId })
     expect(challenge.firstSolution).toEqual(solution._id)
   })
 
   test('Update solution with execution results', async () => {
     const { solutionId } = await CompleteSolutionModel.create(solutionJson)
+    const newExecutionResult = { ...executionResultJson, isTheProblemSolved: false, error: "¡Acá no hay churrasco!" }
     return request().put(`/solutions/${solutionId}`)
-      .send(executionResultJson)
+      .send({ executionResult: newExecutionResult })
       .expect(200)
-      .then(matchBody({ ...solutionJson, ...executionResultJson }))
+      .then(matchBody({ ...solutionJson, executionResult: newExecutionResult }))
   })
 
 })
 
 
-const solutionId = "007"
-
-const challengeId = "1"
-
-const challengeJson = {
-  firstSolution: '123',
-  challengeId,
-  context,
-}
-
-const executionResultJson = {
-  isTheProblemSolved: true,
-  stoppedByUser: false,
-  error: '' as any
-}
-
-const solutionJson: CompleteSolution = {
-  challengeId,
-  solutionId,
-  program: "XML",
-  ast: '123asd',
-  staticAnalysis: {
-    couldExecute: true
-  },
-  context,
-  timestamp: new Date().toISOString(),
-  turboModeOn: false,
-  executionResult: executionResultJson,
-  user: {
-    _id: '53cb6b9b4f4ddef1ad47f943',
-    username: 'pepita',
-    salt: 'asd',
-    hashedPassword: 'Dvl9i34mkvgoi',
-    parentName: 'Pepita',
-    parentDNI: '123546345',
-    answers: [],
-    profile: {
-      nickName: 'pepitaLaGenia',
-      avatarURL: 'pepita.png'
-    },
-    answeredQuestionIds: [1, 2, 3, 4]
-  }
-}

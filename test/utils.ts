@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as Request from 'supertest'
 import * as mongoose from 'mongoose'
 import router from '../src/routes'
-import { Context } from 'pilas-bloques-models'
+import { Challenge, CompleteSolution, Context, User } from 'pilas-bloques-models'
 
 export type Request = Request.SuperTest<Request.Test>
 
@@ -35,6 +35,11 @@ export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
 }
 
 // MOCKS
+
+const username = "TEST_ID"
+const solutionId = "007"
+const challengeId = "1"
+
 export const context: Context = {
   online: true,
   browserId: 123,
@@ -42,4 +47,37 @@ export const context: Context = {
   userId: 123,
   answers: [],
   timestamp: new Date().toISOString()
+}
+export const userJson: Partial<User> = {
+  username,
+  salt: 'asd',
+  hashedPassword: 'Dvl9i34mkvgoi',
+  parentName: 'Pepita',
+  parentDNI: '123546345'
+}
+
+export const executionResultJson = {
+  isTheProblemSolved: true,
+  stoppedByUser: false,
+  error: '' as any
+}
+
+export const solutionJson: CompleteSolution = {
+  challengeId,
+  solutionId,
+  program: "XML",
+  ast: '123asd',
+  staticAnalysis: {
+    couldExecute: true
+  },
+  context,
+  timestamp: new Date().toISOString(),
+  turboModeOn: false,
+  executionResult: executionResultJson,
+  user: '53cb6b9b4f4ddef1ad47f943',
+}
+
+export const challengeJson: Challenge = {
+  challengeId,
+  context
 }
