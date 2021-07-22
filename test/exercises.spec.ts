@@ -1,7 +1,6 @@
 import describeApi from './describeApi'
 import { matchBody, challengeJson, solutionJson, executionResultJson } from './utils'
-import { CompleteSolutionModel } from 'pilas-bloques-models'
-import { ChallengeModel } from 'pilas-bloques-models'
+import { CompleteSolutionModel, ChallengeModel } from 'pilas-bloques-models'
 
 describeApi('Challenges', (request) => {
 
@@ -22,12 +21,12 @@ describeApi('Challenges', (request) => {
   test('Create solution should update last challenge', async () => {
     await ChallengeModel.create(challengeJson)
     const newChallengeJson = { ...challengeJson }
-    newChallengeJson.context.timestamp = new Date().toISOString()
+    newChallengeJson.timestamp = new Date(newChallengeJson.timestamp.getDate() + 1)
     await ChallengeModel.create(newChallengeJson)
     await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
-    const [firstChallenge, secondChallenge] = await ChallengeModel.find({ challengeId: challengeJson.challengeId })
+    const [firstChallenge, secondChallenge] = await ChallengeModel.find({ challengeId: challengeJson.challengeId }).sort({ timestamp: 1 })
     expect(firstChallenge.firstSolution).toBeFalsy()
     expect(secondChallenge.firstSolution).toBeTruthy()
   })

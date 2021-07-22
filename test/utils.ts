@@ -31,7 +31,8 @@ export const flushDB = () => {
 
 // EXPECTATIONS
 export const matchBody = <T = any>(expected: T) => (res: Request.Response) => {
-  expect(res.body).toMatchObject(expected)
+  // Stringify + Parse to convert to JSON types (dates as strings, etc)
+  expect(res.body).toMatchObject(JSON.parse(JSON.stringify(expected)))
 }
 
 // MOCKS
@@ -42,11 +43,10 @@ const challengeId = "1"
 
 export const context: Context = {
   online: true,
-  browserId: 123,
+  browserId: "123",
   id: "HASH",
-  userId: 123,
-  answers: [],
-  timestamp: new Date().toISOString()
+  userId: "123",
+  answers: []
 }
 export const userJson: Partial<User> = {
   username,
@@ -66,12 +66,12 @@ export const solutionJson: CompleteSolution = {
   challengeId,
   solutionId,
   program: "XML",
-  ast: '123asd',
+  ast: [],
   staticAnalysis: {
     couldExecute: true
   },
   context,
-  timestamp: new Date().toISOString(),
+  timestamp: new Date(),
   turboModeOn: false,
   executionResult: executionResultJson,
   user: '53cb6b9b4f4ddef1ad47f943',
@@ -79,5 +79,6 @@ export const solutionJson: CompleteSolution = {
 
 export const challengeJson: Challenge = {
   challengeId,
-  context
+  context,
+  timestamp: new Date()
 }
