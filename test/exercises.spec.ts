@@ -1,7 +1,6 @@
 import describeApi from './describeApi'
-import { matchBody, context } from './utils'
-import Solution from '../src/models/solution'
-import Challenge from '../src/models/challenge'
+import { matchBody, challengeJson, solutionJson, executionResultJson } from './utils'
+import { CompleteSolutionModel, ChallengeModel } from 'pilas-bloques-models'
 
 describeApi('Challenges', (request) => {
 
@@ -20,65 +19,38 @@ describeApi('Challenges', (request) => {
   )
 
   test('Create solution should update last challenge', async () => {
-    await Challenge.create(challengeJson)
+    await ChallengeModel.create(challengeJson)
     const newChallengeJson = { ...challengeJson }
-    newChallengeJson.timestamp = new Date().toISOString()
-    await Challenge.create(newChallengeJson)
+    newChallengeJson.timestamp = new Date(newChallengeJson.timestamp.getDate() + 1)
+    await ChallengeModel.create(newChallengeJson)
     await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
-    const [firstChallenge, secondChallenge] = await Challenge.find({ challengeId })
+    const [firstChallenge, secondChallenge] = await ChallengeModel.find({ challengeId: challengeJson.challengeId }).sort({ timestamp: 1 })
     expect(firstChallenge.firstSolution).toBeFalsy()
     expect(secondChallenge.firstSolution).toBeTruthy()
   })
 
   test('Create solution should update last challenge only once', async () => {
-    const solution = await Solution.create(solutionJson)
+    const solution = await CompleteSolutionModel.create(solutionJson)
     const newChallengeJson = { ...challengeJson, firstSolution: solution }
-    await Challenge.create(newChallengeJson)
+    await ChallengeModel.create(newChallengeJson)
     await request().post('/solutions')
       .send(solutionJson)
       .expect(200)
-    const challenge = await Challenge.findOne({ challengeId })
+    const challenge = await ChallengeModel.findOne({ challengeId: challengeJson.challengeId })
     expect(challenge.firstSolution).toEqual(solution._id)
   })
 
   test('Update solution with execution results', async () => {
-    const { solutionId } = await Solution.create(solutionJson)
+    const { solutionId } = await CompleteSolutionModel.create(solutionJson)
+    const newExecutionResult = { ...executionResultJson, isTheProblemSolved: false, error: "¡Acá no hay churrasco!" }
     return request().put(`/solutions/${solutionId}`)
-      .send(executionResultJson)
+      .send({ executionResult: newExecutionResult })
       .expect(200)
-      .then(matchBody({ ...solutionJson, ...executionResultJson }))
+      .then(matchBody({ ...solutionJson, executionResult: newExecutionResult }))
   })
 
 })
 
 
-const solutionId = "007"
-
-const challengeId = "1"
-
-const challengeJson = {
-  challengeId,
-  context,
-  timestamp: new Date().toISOString(),
-}
-
-const solutionJson = {
-  challengeId,
-  solutionId,
-  program: "XML",
-  ast: [],
-  staticAnalysis: {
-    couldExecute: true
-  },
-  context,
-  timestamp: new Date().toISOString(),
-  turboModeOn: false,
-}
-
-const executionResultJson = {
-  executionResult: {
-    isTheProblemSolved: true,
-  }
-}

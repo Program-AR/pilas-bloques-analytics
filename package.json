@@ -10,7 +10,8 @@
     "test": "jest --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
     "release": "release patch",
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
-    "package": "tar -czf pilasbloques-analytics.tar.gz dist/*"
+    "package": "tar -czf pilasbloques-analytics.tar.gz dist/*",
+    "updateModels": "cd ../pilas-bloques-models/ && rm -f *.tgz && npm run prepublish && npm pack && cd ../pilas-bloques-analytics/ && rm -Rf node_modules/pilas-bloques-models && npm install ../pilas-bloques-models/pilas-bloques-models-*.tgz"
   },
   "author": "Fundación Sadosky",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.10.1",
+    "pilas-bloques-models": "^1.2.6",
     "ts-node": "^9.0.0"
   },
   "devDependencies": {
@@ -34,10 +36,10 @@
     "eslint": "^7.8.1",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
+    "release": "^6.3.0",
     "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
-    "typescript": "^4.0.2",
-    "release": "^6.3.0"
+    "typescript": "^4.0.2"
   },
   "jest": {
     "preset": "ts-jest",
