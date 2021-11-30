@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "node dist/src/index.js",
     "test": "jest --colors --testPathIgnorePatterns dist --testTimeout 5000 --runInBand",
-    "release": "release patch",
+    "release:patch": "release patch",
+    "release:minor": "release minor",
     "prepackage": "rm -Rf dist && npm run build && cp -R node_modules dist/",
     "package": "tar -czf pilasbloques-analytics.tar.gz dist/*",
     "updateModels": "cd ../pilas-bloques-models/ && rm -f *.tgz && npm run prepublish && npm pack && cd ../pilas-bloques-analytics/ && rm -Rf node_modules/pilas-bloques-models && npm install ../pilas-bloques-models/pilas-bloques-models-*.tgz"
