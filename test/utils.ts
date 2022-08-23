@@ -46,7 +46,9 @@ export const context: Context = {
   browserId: "123",
   id: "HASH",
   userId: "123",
-  answers: []
+  answers: [],
+  experimentGroup: 'treatment',
+  url: ''
 }
 export const userJson: Partial<User> = {
   username,
@@ -68,7 +70,12 @@ export const solutionJson: CompleteSolution = {
   program: "XML",
   ast: [],
   staticAnalysis: {
-    couldExecute: true
+    couldExecute: true,
+    allExpectResults: [],
+    score: {
+      expectResults: [],
+      percentage:0
+    },
   },
   context,
   timestamp: new Date(),
