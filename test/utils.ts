@@ -48,7 +48,8 @@ export const context: Context = {
   userId: "123",
   answers: [],
   experimentGroup: 'treatment',
-  url: ''
+  url: '', 
+  ip: '199.199.199.199'
 }
 export const userJson: Partial<User> = {
   username,
