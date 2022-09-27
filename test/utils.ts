@@ -77,6 +77,7 @@ export const solutionJson: CompleteSolution = {
       expectResults: [],
       percentage:0
     },
+    error: ''
   },
   context,
   timestamp: new Date(),
