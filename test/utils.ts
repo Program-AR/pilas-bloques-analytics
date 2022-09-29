@@ -48,7 +48,8 @@ export const context: Context = {
   userId: "123",
   answers: [],
   experimentGroup: 'treatment',
-  url: ''
+  url: '', 
+  ip: '199.199.199.199'
 }
 export const userJson: Partial<User> = {
   username,
@@ -76,6 +77,7 @@ export const solutionJson: CompleteSolution = {
       expectResults: [],
       percentage:0
     },
+    error: ''
   },
   context,
   timestamp: new Date(),
