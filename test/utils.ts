@@ -48,8 +48,9 @@ export const context: Context = {
   userId: "123",
   answers: [],
   experimentGroup: 'treatment',
-  url: '', 
-  ip: '199.199.199.199'
+  url: '',
+  ip: '199.199.199.199',
+  version: '7.27.78x'
 }
 export const userJson: Partial<User> = {
   username,
@@ -75,7 +76,7 @@ export const solutionJson: CompleteSolution = {
     allExpectResults: [],
     score: {
       expectResults: [],
-      percentage:0
+      percentage: 0
     },
     error: ''
   },
