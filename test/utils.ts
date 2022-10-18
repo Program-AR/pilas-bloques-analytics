@@ -75,7 +75,9 @@ export const solutionJson: CompleteSolution = {
     couldExecute: true,
     allExpectResults: [],
     score: {
-      expectResults: {},
+      expectResults: {
+        solution_works: false
+      },
       percentage: 0
     },
     error: ''
