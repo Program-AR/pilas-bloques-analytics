@@ -50,7 +50,12 @@ export const context: Context = {
   experimentGroup: 'treatment',
   url: '',
   ip: '199.199.199.199',
-  version: '7.27.78x'
+  version: '7.27.78x',
+  locale: 'es-ar',
+  usesNightTheme: true,
+  usesSimpleRead: false,
+  usesFullScreen: false,
+  solvedChallenges: []
 }
 export const userJson: Partial<User> = {
   username,
